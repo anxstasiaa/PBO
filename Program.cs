@@ -92,7 +92,6 @@ namespace Project_PBO
             if (user != null)
             {
                 Console.WriteLine($"Login berhasil! Selamat datang, {user.Role}.");
-                // Here you can add code to redirect to different controllers based on user.Role
             }
             else
             {
