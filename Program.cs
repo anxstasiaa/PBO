@@ -92,7 +92,26 @@ namespace Project_PBO
             if (user != null)
             {
                 Console.WriteLine($"Login berhasil! Selamat datang, {user.Role}.");
-                
+
+                switch (user.Role.ToLower())
+                {
+                    case "mahasiswa":
+                        MenuMahasiswa();
+                        break;
+                    case "admin prodi":
+                        MenuAdminProdi();
+                        break;
+                    case "admin univ":
+                        MenuAdminUniv();
+                        break;
+                    case "dosen":
+                        MenuDosen();
+                        break;
+                    default:
+                        Console.WriteLine("Role tidak dikenali.");
+                        break;
+                }
+
             }
             else
             {
@@ -100,9 +119,17 @@ namespace Project_PBO
             }
             Console.WriteLine("Tekan Enter untuk melanjutkan...");
             Console.ReadLine();
-
-           //tes terus
         }
+
+       static void MenuMahasiswa()
+       { }
+
+       static void MenuAdminProdi()
+       { }
+       static void MenuAdminUniv()
+       { }
+       static void MenuDosen()
+       { }
     }
 
     }
