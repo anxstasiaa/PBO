@@ -12,7 +12,7 @@ namespace Project_PBO
         public string NamaMK { get; set; }
         public int SKS { get; set; }
         public string IDProdi { get; set; }
-        public string Semester { get; set; }
+        public int Semester { get; set; }
         public string DosenPengampu { get; set; }
 
         public void InputMataKuliah()
