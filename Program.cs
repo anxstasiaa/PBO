@@ -39,9 +39,9 @@ namespace Project_PBO
         {
             if (daftarProdi.Count == 0)
             {
-                daftarProdi.Add(new Prodi { KodeProdi = "ILKOM", NamaProdi = "Ilmu Komputer", AliasProdi = "Komputer" });
-                daftarProdi.Add(new Prodi { KodeProdi = "BIO", NamaProdi = "Biologi", AliasProdi = "Bio" });
-                daftarProdi.Add(new Prodi { KodeProdi = "FIS", NamaProdi = "Fisika", AliasProdi = "Physics" });
+                daftarProdi.Add(new Prodi { KodeProdi = "11111", NamaProdi = "Ilmu Komputer", AliasProdi = "ILKOM" });
+                daftarProdi.Add(new Prodi { KodeProdi = "22222", NamaProdi = "Biologi", AliasProdi = "BIO" });
+                daftarProdi.Add(new Prodi { KodeProdi = "33333", NamaProdi = "Fisika", AliasProdi = "FIS" });
             }
 
             mhsCtrl = new MahasiswaController(daftarMahasiswa, daftarProdi);

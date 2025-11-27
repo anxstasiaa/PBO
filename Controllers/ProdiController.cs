@@ -21,6 +21,7 @@ namespace Project_PBO
 
         public void DaftarProdi()
         {
+            Console.Clear();
             Console.WriteLine("\n=== Daftar Prodi ===");
             if (daftarProdi.Count == 0)
             {
@@ -33,7 +34,10 @@ namespace Project_PBO
             {
                 Console.WriteLine($"{no}. {p.KodeProdi} || Nama: {p.NamaProdi} || Alias: {p.AliasProdi}");
                 no++;
+
             }
+            Console.WriteLine("\nTekan ENTER untuk kembali...");
+            Console.ReadLine();
         }
         public void TambahProdi()
         {
@@ -106,6 +110,7 @@ namespace Project_PBO
             } while (alias == null);
             daftarProdi.Add(new Prodi { KodeProdi = kode, NamaProdi = nama.ToUpper(), AliasProdi = alias });
             Console.WriteLine("Prodi berhasil ditambahkan!");
+
         }
 
         private bool IsAllDigits(string s)

@@ -118,7 +118,6 @@ namespace Project_PBO
             }
         }
 
-
         public void DaftarMahasiswa(string filterProdi = null, int? filterAngkatan = null)
         {
             Console.Clear();
@@ -147,10 +146,10 @@ namespace Project_PBO
                 Console.WriteLine("Tidak ada mahasiswa ditemukan dengan filter tersebut.");
                 return;
             }
-
             Console.WriteLine("\nNo | NIM        | Nama                    | Prodi | JK | Angkatan | Tanggal Lahir");
             Console.WriteLine("---+------------+-------------------------+-------+----+----------+---------------");
-
+            Console.WriteLine("\nTekan ENTER untuk kembali...");
+            Console.ReadLine();
             int no = 1;
             foreach (var mhs in hasil)
             {
@@ -158,7 +157,9 @@ namespace Project_PBO
                 Console.WriteLine($"{no,2} | {mhs.NIM,-10} | {mhs.NamaMhs,-23} | {mhs.IDProdi,-5} | {jk}  | {mhs.Angkatan,8} | {mhs.TanggalLahir:dd-MM-yyyy}");
                 no++;
             }
+            
             Console.WriteLine($"\nTotal: {hasil.Count} mahasiswa");
+           
         }
 
         // Menu Filter untuk Daftar Mahasiswa
@@ -187,8 +188,6 @@ namespace Project_PBO
                 {
                     case 1:
                         DaftarMahasiswa();
-                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
-                        Console.ReadLine();
                         break;
 
                     case 2:
@@ -356,8 +355,10 @@ namespace Project_PBO
 
             daftarMahasiswa.Add(mhs);
 
-            Console.WriteLine("\n✓ Data mahasiswa berhasil ditambahkan!");
+            Console.WriteLine("\n Data mahasiswa berhasil ditambahkan!");
             mhs.InputMahasiswa();
+            Console.WriteLine("\nTekan ENTER untuk kembali...");
+            Console.ReadLine();
         }
 
         // UPDATE: Ubah Data Mahasiswa
