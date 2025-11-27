@@ -16,13 +16,13 @@ namespace Project_PBO
         static List<MataKuliah> daftarMataKuliah = new List<MataKuliah>();
         static List<Semester> daftarSemester = new List<Semester>();
         static List<KelasKuliah> daftarKelasKuliah = new List<KelasKuliah>();
-        static List<Nilai> NilaiSaya = new List<Nilai>();
+        static List<Nilai> daftarNilai = new List<Nilai>();
         static List<User> Users = new List<User>
         {
             new User { Username="admin-univ", Password="123", Role="AdminUniv" },
             new User { Username="admin-prodi", Password="123", Role="AdminProdi", IDProdi="ILKOM" },
-            new User { Username="mhs-ilkom-rani", Password="123", Role="Mahasiswa", NIM="240608", IDProdi="ILKOM" },
-            new User { Username="dosen-ilkom-kerien", Password="123", Role="Dosen", IDProdi="ILKOM" }
+            new User { Username="mhs", Password="123", Role="Mahasiswa", NIM="240608", IDProdi="ILKOM" },
+            new User { Username="dosen", Password="123", Role="Dosen", IDProdi="ILKOM" }
         };
 
         static MahasiswaController mhsCtrl;
@@ -37,16 +37,23 @@ namespace Project_PBO
 
         static void Main()
         {
+            if (daftarProdi.Count == 0)
+            {
+                daftarProdi.Add(new Prodi { KodeProdi = "ILKOM", NamaProdi = "Ilmu Komputer", AliasProdi = "Komputer" });
+                daftarProdi.Add(new Prodi { KodeProdi = "BIO", NamaProdi = "Biologi", AliasProdi = "Bio" });
+                daftarProdi.Add(new Prodi { KodeProdi = "FIS", NamaProdi = "Fisika", AliasProdi = "Physics" });
+            }
+
             mhsCtrl = new MahasiswaController(daftarMahasiswa, daftarProdi);
             MKCtrl = new MataKuliahController(daftarProdi);
             ProdiCtrl = new ProdiController(daftarMahasiswa, daftarProdi, daftarMataKuliah);
             SemCtrl = new SemesterController(daftarSemester);
-            KKCtrl = new KelasKuliahController(daftarKelasKuliah, daftarMataKuliah, daftarProdi, daftarSemester);
-            NilaiCtrl = new NilaiController(NilaiSaya, daftarMahasiswa, daftarKelasKuliah, daftarMataKuliah);
+            KKCtrl = new KelasKuliahController(daftarKelasKuliah, daftarMataKuliah, daftarProdi, daftarSemester, daftarDosen);
+            NilaiCtrl = new NilaiController(daftarNilai, daftarMahasiswa, daftarKelasKuliah, daftarMataKuliah);
             dsnCtrl = new DosenController(daftarDosen, daftarProdi);
 
             AdmProdiCtrl = new AdminProdiController(daftarAdminProdi, daftarProdi);
-            AdmUnivCtrl = new AdminUnivController(daftarAdminUniv, daftarMahasiswa, daftarProdi);
+            AdmUnivCtrl = new AdminUnivController(daftarAdminUniv, daftarMahasiswa, daftarProdi, daftarNilai);
 
             int login;
             do
@@ -86,6 +93,7 @@ namespace Project_PBO
                         break;
                     default:
                         Console.WriteLine("Pilihan tidak valid. Silakan coba lagi.");
+                        Console.ReadLine();
                         break;
                 }
             } while (login != 5);
@@ -152,12 +160,45 @@ namespace Project_PBO
                 Console.ReadLine();
                 return;
             }
+
+            Console.Clear();
+            Console.WriteLine("==================================");
+            Console.WriteLine("       Pilih Program Studi        ");
+            Console.WriteLine("==================================");
+            if (daftarProdi.Count == 0)
+            {
+                Console.WriteLine("Belum ada prodi terdaftar!");
+                Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                Console.ReadLine();
+                return;
+            }
+            // Tampilkan daftar prodi
+            for (int i = 0; i < daftarProdi.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {daftarProdi[i].NamaProdi} ({daftarProdi[i].KodeProdi})");
+            }
+            Console.WriteLine("==================================");
+
+            int pilihanProdi;
+            do
+            {
+                Console.Write("Pilih prodi (masukkan nomor): ");
+                if (!int.TryParse(Console.ReadLine(), out pilihanProdi) || pilihanProdi < 1 || pilihanProdi > daftarProdi.Count)
+                {
+                    Console.WriteLine("Pilihan tidak valid!");
+                    pilihanProdi = 0;
+                }
+            } while (pilihanProdi == 0);
+
+            user.IDProdi = daftarProdi[pilihanProdi - 1].KodeProdi;
+
             Console.WriteLine($"Login berhasil! Selamat datang, {user.Role}.");
             // pass user so MenuAdminProdi can restrict to user.IDProdi
             MenuAdminProdi(user);
             Console.WriteLine("Tekan Enter untuk melanjutkan...");
             Console.ReadLine();
         }
+
 
         static void MenuAdminProdi(User user)
         {
@@ -185,7 +226,7 @@ namespace Project_PBO
                 switch (choice)
                 {
                     case 1:
-                        DaftarMahasiswa(user.IDProdi);
+                        DaftarMahasiswaByProdi(user.IDProdi);
                         break;
                     case 2:
                         KelolaMataKuliah(user.IDProdi);
@@ -210,7 +251,7 @@ namespace Project_PBO
             } while (choice != 6);
         }
 
-        static void DaftarMahasiswa(string idProdi)
+        static void DaftarMahasiswaByProdi(string idProdi)
         {
             Console.Clear();
             Console.WriteLine($"Daftar Mahasiswa ({idProdi})");
@@ -222,9 +263,12 @@ namespace Project_PBO
             }
             else
             {
+                int no = 1;
                 foreach (var mhs in mahasiswaInProdi)
                 {
-                    Console.WriteLine($"NIM: {mhs.NIM}, Nama: {mhs.Nama}, Prodi: {mhs.IDProdi}");
+                    string jk = (mhs.JenisKelamin == 'L') ? "Laki-laki" : "Perempuan";
+                    Console.WriteLine($"[{no}] NIM: {mhs.NIM}, Nama: {mhs.NamaMhs}, Prodi: {mhs.IDProdi}");
+                    no++;
                 }
             }
             Console.WriteLine("==============================");
@@ -254,22 +298,32 @@ namespace Project_PBO
                 switch (pilihan)
                 {
                     case 1:
-                        MKCtrl.DaftarMataKuliah(idProdi);
+                        MKCtrl.DaftarMataKuliah();
+                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
                         break;
                     case 2:
-                        MKCtrl.TambahMataKuliah(idProdi);
+                        MKCtrl.TambahMataKuliah();
+                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
                         break;
                     case 3:
-                        MKCtrl.UbahMataKuliah(idProdi);
+                        MKCtrl.UbahMataKuliah();
+                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
                         break;
                     case 4:
                         MKCtrl.HapusMataKuliah();
+                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
                         break;
                     case 5:
                         Console.WriteLine("Kembali ke menu Admin Prodi...");
                         break;
                     default:
                         Console.WriteLine("Pilihan Anda tidak valid!");
+                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
                         break;
                 }
             } while (pilihan != 5);
@@ -277,7 +331,56 @@ namespace Project_PBO
         
         static void KelolaKelasKuliah(string idProdi)
         {
-                AdmProdiCtrl.KelolaKelasKuliah(idProdi);
+            int pilihan;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine($"====== Kelola Kelas Kuliah ({idProdi}) ======");
+                Console.WriteLine("| 1. Daftar Kelas Kuliah                 |");
+                Console.WriteLine("| 2. Tambah Kelas Kuliah                 |");
+                Console.WriteLine("| 3. Ubah Kelas Kuliah                   |");
+                Console.WriteLine("| 4. Hapus Kelas Kuliah                  |");
+                Console.WriteLine("| 5. Kembali ke Menu Admin Prodi         |");
+                Console.WriteLine("==========================================");
+                Console.Write("Pilih menu: ");
+                while (!int.TryParse(Console.ReadLine(), out pilihan))
+                {
+                    Console.WriteLine("Input tidak valid! Masukkan angka sesuai menu.");
+                    Console.Write("Pilih menu: ");
+                }
+
+                switch (pilihan)
+                {
+                    case 1:
+                        KKCtrl.DaftarKelasKuliah(idProdi);
+                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        KKCtrl.TambahKelasKuliah(idProdi);
+                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
+                        break;
+                    case 3:
+                        KKCtrl.UbahKelasKuliah(idProdi);
+                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
+                        break;
+                    case 4:
+                        KKCtrl.HapusKelasKuliah(idProdi);
+                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
+                        break;
+                    case 5:
+                        Console.WriteLine("Kembali ke menu Admin Prodi...");
+                        break;
+                    default:
+                        Console.WriteLine("Pilihan tidak valid!");
+                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
+                        Console.ReadLine();
+                        break;
+                }
+            } while (pilihan != 5);
         }
 
 
@@ -389,6 +492,7 @@ namespace Project_PBO
                         break;
                     default:
                         Console.WriteLine("Pilihan Anda tidak valid!");
+                        Console.ReadLine();
                         break;
                 }
             } while (pilihan != 5);
