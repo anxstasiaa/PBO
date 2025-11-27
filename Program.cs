@@ -132,6 +132,120 @@ namespace Project_PBO
             Console.WriteLine("Tekan Enter untuk melanjutkan...");
             Console.ReadLine();
         }
+
+        static void MenuAdminUniv()
+        {
+            int pilih;
+            do 
+            {
+                Console.Clear();
+                Console.WriteLine("======== MENU ADMIN UNIVERSITAS ========");
+                Console.WriteLine("1. Manajemen Prodi");
+                Console.WriteLine("2. Manajemen Mahasiswa");
+                Console.WriteLine("3. Logout");
+                Console.WriteLine("==========================================");
+                Console.Write("Pilih menu: ");
+
+                if (!int.TryParse(Console.ReadLine(), out pilih))
+                    pilih = 0;
+
+                switch (pilih)
+                {
+                    case 1:
+                        MenuUnivProdi();
+                        break;
+
+                    case 2:
+                        MenuMahasiswaAdmin();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Logout...");
+                        break;
+
+                    default:
+                        Console.WriteLine("Pilihan tidak valid.");
+                        Console.ReadLine();
+                        break;
+                }
+
+            } while (pilih != 3);
+        }
+
+        static void MenuUnivProdi()
+        {
+            int pilihan;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("======== MANAGEMEN PRODI ========");
+                Console.WriteLine("1. Daftar Prodi");
+                Console.WriteLine("2. Tambah Prodi");
+                Console.WriteLine("3. Kembali ke Menu Admin Univ");
+                Console.WriteLine("=================================");
+                Console.Write("Pilih menu: ");
+                if (!int.TryParse(Console.ReadLine(), out pilihan))
+                    pilihan = 0;
+                switch (pilihan)
+                {
+                    case 1:
+                        ProdiCtrl.DaftarProdi();
+                        break;
+                    case 2:
+                        ProdiCtrl.TambahProdi();
+                        break;
+                    case 3:
+                        Console.WriteLine("Kembali ke Menu Admin Univ...");
+                        break;
+                    default:
+                        Console.WriteLine("Pilihan tidak valid.");
+                        Console.ReadLine();
+                        break;
+                }
+            } while (pilihan != 3);
+        }
+
+        static void MenuMahasiswaAdmin()
+        {
+            int pilihan;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("======== MANAGEMEN MAHASISWA ========");
+                Console.WriteLine("1. Daftar Mahasiswa");
+                Console.WriteLine("2. Tambah Mahasiswa");
+                Console.WriteLine("3. Ubah Mahasiswa");
+                Console.WriteLine("4. Hapus Mahasiswa");
+                Console.WriteLine("5. Kembali ke Menu Admin Univ");
+                Console.WriteLine("=====================================");
+                Console.Write("Pilih menu: ");
+                if (!int.TryParse(Console.ReadLine(), out pilihan))
+                    pilihan = 0;
+                switch (pilihan)
+                {
+                    case 1:
+                        AdmUnivCtrl.DaftarMahasiswa();
+                        break;
+                    case 2:
+                        AdmUnivCtrl.TambahMahasiswa();
+                        break;
+                    case 3:
+                        AdmUnivCtrl.UbahMahasiswa();
+                        break;
+                    case 4:
+                        AdmUnivCtrl.HapusMahasiswa();
+                        break;
+                    case 5:
+                        Console.WriteLine("Kembali ke Menu Admin Univ...");
+                        break;
+                    default:
+                        Console.WriteLine("Pilihan tidak valid.");
+                        Console.ReadLine();
+                        break;
+                }
+            } while (pilihan != 5);
+        }
+
         static void LoginAdmProdi()
         {
             Console.Clear();
@@ -451,72 +565,7 @@ namespace Project_PBO
             Console.ReadLine();
         }
 
-        static void MenuAdminUniv()
-        {
-            int pilihan;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("\n====== Menu Mahasiswa ======");
-                Console.WriteLine("| 1. Daftar Mahasiswa      |");
-                Console.WriteLine("| 2. Tambah Mahasiswa      |");
-                Console.WriteLine("| 3. Ubah Mahasiswa        |");
-                Console.WriteLine("| 4. Hapus Mahasiswa       |");
-                Console.WriteLine("| 5. Kembali ke Menu Utama |");
-                Console.WriteLine("============================");
-                Console.Write("Pilih menu: ");
-                while (!int.TryParse(Console.ReadLine(), out pilihan))
-                {
-                    Console.WriteLine("Input Anda tidak valid! Masukkan angka sesuai menu.");
-                    Console.Write("Pilih menu: ");
-                }
-
-                Console.Clear();
-
-                switch (pilihan)
-                {
-                    case 1:
-                        DaftarMahasiswa();
-                        break;
-                    case 2:
-                        TambahMahasiswa();
-                        break;
-                    case 3:
-                        UbahMahasiswa();
-                        break;
-                    case 4:
-                        HapusMahasiswa();
-                        break;
-                    case 5:
-                        Console.WriteLine("Kembali ke menu utama...");
-                        break;
-                    default:
-                        Console.WriteLine("Pilihan Anda tidak valid!");
-                        Console.ReadLine();
-                        break;
-                }
-            } while (pilihan != 5);
-        }
-
-        static void DaftarMahasiswa()
-        {
-            AdmUnivCtrl.DaftarMahasiswa();
-        }
-        static void TambahMahasiswa()
-        {
-            AdmUnivCtrl.TambahMahasiswa();
-        }
-        static void UbahMahasiswa()
-        {
-            AdmUnivCtrl.UbahMahasiswa();
-        }
-        static void HapusMahasiswa()
-        {
-            AdmUnivCtrl.HapusMahasiswa();
-        }
-
-
-
+        
         static void MenuDosen(User user)
         {
             Console.WriteLine($"(Dosen menu) Prodi: {user?.IDProdi}");
