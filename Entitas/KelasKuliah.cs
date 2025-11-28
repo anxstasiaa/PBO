@@ -15,8 +15,10 @@ namespace Project_PBO
         public string Ruangan { get; set; }
         public string NamaKelas { get; set; }
         public MataKuliah MataKuliah { get; set; }
-        public int JumlahPeeserta { get; set; }
+        public int JumlahPeserta { get; set; }
         public int KapasitasKelas { get; set; }
+
+        public string DosenPengampu { get; set; }
 
         //public KelasKuliah(MataKuliah mk, string kodeKelas, string namaKelas, string kodeSemester, int kapasitas)
         //{

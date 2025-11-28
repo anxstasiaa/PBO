@@ -55,7 +55,7 @@
     <Compile Include="Entitas\AdminProdi.cs" />
     <Compile Include="Entitas\AdminUniv.cs" />
     <Compile Include="Entitas\Dosen.cs" />
-    <Compile Include="Entitas\KelasKuliahcs.cs" />
+    <Compile Include="Entitas\KelasKuliah.cs" />
     <Compile Include="Entitas\Mahasiswa.cs" />
     <Compile Include="Entitas\MataKuliah.cs" />
     <Compile Include="Entitas\Nilai.cs" />

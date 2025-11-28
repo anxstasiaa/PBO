@@ -21,7 +21,9 @@ namespace Project_PBO
         public double NilaiSoftSkill { get; set; }
         public double NilaiAkhir { get; set; }
         public string HurufMutu { get; set; }
-        public double AngkaMutu { get; set; }
+        public double? AngkaMutu { get; set; }
+        public Nilai() { }
+
 
         public Nilai(string nim, string kodeKelas, string IDprodi, string IDsemester,
                      string kodeMK, string namaMK, int sks,

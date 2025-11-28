@@ -55,7 +55,7 @@ namespace Project_PBO
                 Console.WriteLine($"   Mata Kuliah: {kelas.KodeMK} - {namaMK}");
                 Console.WriteLine($"   Semester: {namaSem} ({kelas.IDSemester})");
                 Console.WriteLine($"   Ruangan: {kelas.Ruangan}");
-                Console.WriteLine($"   Kapasitas: {kelas.JumlahPeeserta}/{kelas.KapasitasKelas}");
+                Console.WriteLine($"   Kapasitas: {kelas.JumlahPeserta}/{kelas.KapasitasKelas}");
                 Console.WriteLine($"   Prodi: {kelas.IDProdi}");
                 Console.WriteLine();
                 no++;
@@ -192,7 +192,7 @@ namespace Project_PBO
             } while (kapasitas == 0);
 
             kelas.KapasitasKelas = kapasitas;
-            kelas.JumlahPeeserta = 0; // Default 0 peserta
+            kelas.JumlahPeserta = 0; // Default 0 peserta
 
             // 7. Pilih Dosen Pengampu (Optional - bisa ditambahkan nanti)
             Console.WriteLine("\n(Info: Dosen pengampu dapat diatur nanti)");
@@ -252,13 +252,13 @@ namespace Project_PBO
             {
                 if (int.TryParse(kapasitasInput, out int kapasitasBaru) && kapasitasBaru >= 1 && kapasitasBaru <= 100)
                 {
-                    if (kapasitasBaru >= kelas.JumlahPeeserta)
+                    if (kapasitasBaru >= kelas.JumlahPeserta)
                     {
                         kelas.KapasitasKelas = kapasitasBaru;
                     }
                     else
                     {
-                        Console.WriteLine($"Kapasitas tidak boleh kurang dari jumlah peserta saat ini ({kelas.JumlahPeeserta})!");
+                        Console.WriteLine($"Kapasitas tidak boleh kurang dari jumlah peserta saat ini ({kelas.JumlahPeserta})!");
                     }
                 }
             }
@@ -296,7 +296,7 @@ namespace Project_PBO
             // Konfirmasi penghapusan
             Console.WriteLine($"\nAnda akan menghapus kelas: {kelas.NamaKelas} ({kelas.KodeKelas})");
             Console.WriteLine($"Mata Kuliah: {kelas.KodeMK}");
-            Console.WriteLine($"Peserta saat ini: {kelas.JumlahPeeserta}");
+            Console.WriteLine($"Peserta saat ini: {kelas.JumlahPeserta}");
             Console.Write("\nApakah Anda yakin? (Y/N): ");
             string konfirmasi = Console.ReadLine()?.Trim().ToUpper();
 
