@@ -50,26 +50,20 @@ namespace Project_PBO
                 kode = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
                 if (string.IsNullOrWhiteSpace(kode))
                 {
-                    Console.WriteLine("Kode Prodi tidak boleh kosong.");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Program Studi =====");
+                    Console.WriteLine("Kode Prodi tidak boleh kosong. Coba lagi. \n");
+                    
                     continue;
                 }
                 if (kode.Length > 5)
                 {
                     Console.WriteLine("Kode Prodi maksimal 5 karakter.");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Program Studi =====");
+                    
                     continue;
                 }
                 if (daftarProdi.Any(x => string.Equals(x.KodeProdi, kode, StringComparison.OrdinalIgnoreCase)))
                 {
                     Console.WriteLine("Kode Prodi sudah ada. Gunakan kode lain.");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Program Studi =====");
+                    
                     continue;
                 }
                 break;
@@ -93,7 +87,7 @@ namespace Project_PBO
             string alias;
             while (true)
             {
-                Console.Write("Alias Prodi (max 15 karakter): ");
+                Console.Write("\nAlias Prodi (max 15 karakter): ");
                 alias = (Console.ReadLine() ?? string.Empty).Trim();
                 if (string.IsNullOrWhiteSpace(alias))
                 {
@@ -117,6 +111,8 @@ namespace Project_PBO
 
             daftarProdi.Add(prodi);
             Console.WriteLine("Program Studi berhasil ditambahkan.");
+            Console.WriteLine("\nTekan ENTER untuk kembali...");
+            Console.ReadLine();
         }
     }
 }

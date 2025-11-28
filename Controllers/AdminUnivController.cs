@@ -144,12 +144,13 @@ namespace Project_PBO
             if (hasil.Count == 0)
             {
                 Console.WriteLine("Tidak ada mahasiswa ditemukan dengan filter tersebut.");
+                Console.WriteLine("\nTekan ENTER untuk kembali...");
+                Console.ReadLine();
                 return;
             }
             Console.WriteLine("\nNo | NIM        | Nama                    | Prodi | JK | Angkatan | Tanggal Lahir");
             Console.WriteLine("---+------------+-------------------------+-------+----+----------+---------------");
-            Console.WriteLine("\nTekan ENTER untuk kembali...");
-            Console.ReadLine();
+            
             int no = 1;
             foreach (var mhs in hasil)
             {

@@ -33,9 +33,7 @@ namespace Project_PBO
                 if (string.IsNullOrWhiteSpace(nidn) || nidn.Length != 10 || !nidn.All(char.IsDigit))
                 {
                     Console.WriteLine("NIDN harus 10 digit angka!");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Dosen =====");
+                    
                     nidn = "";
                 }
             } while (nidn == "");
@@ -51,17 +49,13 @@ namespace Project_PBO
                 if (string.IsNullOrWhiteSpace(nama) || nama.Length < 5)
                 {
                     Console.WriteLine("Nama minimal 5 huruf!");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Dosen =====");
+                    
                     nama = "";
                 }
                 else if (!nama.All(c => c == ' ' || (c >= 'A' && c <= 'Z')))
                 {
                     Console.WriteLine("Nama harus huruf KAPITAL tanpa angka/simbol!");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Dosen =====");
+                    
                     nama = "";
                 }
             } while (nama == "");
@@ -80,9 +74,7 @@ namespace Project_PBO
                 if (jk != 'L' && jk != 'P')
                 {
                     Console.WriteLine("Input tidak valid! Masukkan L atau P.");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Dosen =====");
+                    
                     jk = '\0';
                 }
 
@@ -109,9 +101,7 @@ namespace Project_PBO
                 else
                 {
                     Console.WriteLine("Pilihan tidak valid!");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    Console.WriteLine("===== Tambah Dosen =====");
+                    
                 }
 
             } while (selectedProdi == null);
