@@ -47,7 +47,7 @@ namespace Project_PBO
                 string namaMK = mk != null ? mk.NamaMK : "Unknown";
 
                 // Cari nama semester
-                var sem = daftarSemester.FirstOrDefault(s => s.kodeSemester == kelas.IDSemester);
+                var sem = daftarSemester.FirstOrDefault(s => s.IDSemester == kelas.IDSemester);
                 string namaSem = sem != null ? sem.namaSemester : "Unknown";
 
                 Console.WriteLine($"{no}. Kode Kelas: {kelas.KodeKelas}");
@@ -82,7 +82,7 @@ namespace Project_PBO
             for (int i = 0; i < daftarSemester.Count; i++)
             {
                 var sem = daftarSemester[i];
-                Console.WriteLine($"{i + 1}. {sem.namaSemester} - {sem.TahunAjaran} ({sem.kodeSemester})");
+                Console.WriteLine($"{i + 1}. {sem.namaSemester} - {sem.TahunAjaran} ({sem.IDSemester})");
             }
 
             int pilihanSem;
@@ -96,7 +96,7 @@ namespace Project_PBO
                 }
             } while (pilihanSem == 0);
 
-            kelas.IDSemester = daftarSemester[pilihanSem - 1].kodeSemester;
+            kelas.IDSemester = daftarSemester[pilihanSem - 1].IDSemester;
 
             // 2. Pilih Mata Kuliah dari prodi yang sama
             Console.WriteLine("\n--- Pilih Mata Kuliah ---");

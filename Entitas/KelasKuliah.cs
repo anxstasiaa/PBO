@@ -20,14 +20,14 @@ namespace Project_PBO
 
         public string DosenPengampu { get; set; }
 
-        //public KelasKuliah(MataKuliah mk, string kodeKelas, string namaKelas, string kodeSemester, int kapasitas)
+        //public KelasKuliah(MataKuliah mk, string kodeKelas, string namaKelas, string IDSemester, int kapasitas)
         //{
         //    KodeKelas = kodeKelas;
         //    NamaKelas = namaKelas;
         //    MataKuliah = mk;
         //    KodeMK = mk.KodeMK;
-        //    this.kodeSemester = kodeSemester;
-        //    KodeProdi = mk.KodeProdi;
+        //    this.IDSemester = IDSemester;
+        //    IDProdi = mk.IDProdi;
         //    KapasitasKelas = kapasitas;
         //    JumlahPeserta = 0;
         //}
@@ -52,8 +52,8 @@ namespace Project_PBO
         //        $"Kelas Kuliah: {NamaKelas} | " +
         //        $"Kode Kelas: {KodeKelas} | " +
         //        $"Kode MK: {KodeMK} ({MataKuliah.NamaMK}) | " +
-        //        $"Semester: {kodeSemester} | " +
-        //        $"KodeProdi: {KodeProdi} | " +
+        //        $"Semester: {IDSemester} | " +
+        //        $"IDProdi: {IDProdi} | " +
         //        $"Peserta: {JumlahPeserta}/{KapasitasKelas}"
         //    );
         //}

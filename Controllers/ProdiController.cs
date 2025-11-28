@@ -32,7 +32,7 @@ namespace Project_PBO
             int no = 1;
             foreach (var p in daftarProdi)
             {
-                Console.WriteLine($"{no}. {p.KodeProdi} || Nama: {p.NamaProdi} || Alias: {p.AliasProdi}");
+                Console.WriteLine($"{no}. {p.IDProdi} || Nama: {p.NamaProdi} || Alias: {p.AliasProdi}");
                 no++;
 
             }
@@ -61,7 +61,7 @@ namespace Project_PBO
                     kode = null;
                     continue;
                 }
-                if (daftarProdi.Any(x => x.KodeProdi == kode))
+                if (daftarProdi.Any(x => x.IDProdi == kode))
                 {
                     Console.WriteLine("Kode Prodi sudah terdaftar. Gunakan kode lain.");
                     kode = null;
@@ -108,7 +108,7 @@ namespace Project_PBO
                     alias = null;
                 }
             } while (alias == null);
-            daftarProdi.Add(new Prodi { KodeProdi = kode, NamaProdi = nama.ToUpper(), AliasProdi = alias });
+            daftarProdi.Add(new Prodi { IDProdi = kode, NamaProdi = nama.ToUpper(), AliasProdi = alias });
             Console.WriteLine("Prodi berhasil ditambahkan!");
 
         }

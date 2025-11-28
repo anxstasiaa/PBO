@@ -8,13 +8,13 @@ namespace Project_PBO
 {
     internal class Prodi
     {
-        public string KodeProdi { get; set; } //max.5
+        public string IDProdi { get; set; } //max.5
         public string NamaProdi { get; set; } //min.10
         public string AliasProdi { get; set; } //max.15
 
         public void InputProdi()
         {
-            Console.WriteLine($"Program Studi {NamaProdi} dengan kode {KodeProdi} dan alias {AliasProdi}");
+            Console.WriteLine($"Program Studi {NamaProdi} dengan kode {IDProdi} dan alias {AliasProdi}");
         }
 
     }

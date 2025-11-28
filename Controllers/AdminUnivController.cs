@@ -28,7 +28,7 @@ namespace Project_PBO
             Console.Clear();
             Console.WriteLine("===== Tambah Program Studi =====");
 
-            // KodeProdi: not empty, max 5, unique
+            // IDProdi: not empty, max 5, unique
             string kode;
             while (true)
             {
@@ -44,7 +44,7 @@ namespace Project_PBO
                     Console.WriteLine("Kode Prodi maksimal 5 karakter.");
                     continue;
                 }
-                if (daftarProdi.Any(x => string.Equals(x.KodeProdi, kode, StringComparison.OrdinalIgnoreCase)))
+                if (daftarProdi.Any(x => string.Equals(x.IDProdi, kode, StringComparison.OrdinalIgnoreCase)))
                 {
                     Console.WriteLine("Kode Prodi sudah ada. Gunakan kode lain.");
                     continue;
@@ -87,7 +87,7 @@ namespace Project_PBO
 
             var prodi = new Prodi
             {
-                KodeProdi = kode,
+                IDProdi = kode,
                 NamaProdi = nama,
                 AliasProdi = alias
             };
@@ -113,7 +113,7 @@ namespace Project_PBO
             int idx = 1;
             foreach (var p in daftarProdi)
             {
-                Console.WriteLine($"{idx,2} | {p.KodeProdi,-5} | {p.NamaProdi,-29} | {p.AliasProdi}");
+                Console.WriteLine($"{idx,2} | {p.IDProdi,-5} | {p.NamaProdi,-29} | {p.AliasProdi}");
                 idx++;
             }
         }
@@ -313,7 +313,7 @@ namespace Project_PBO
                 Console.WriteLine("\n--- Daftar Prodi ---");
                 for (int i = 0; i < daftarProdi.Count; i++)
                 {
-                    Console.WriteLine($"[{i + 1}] {daftarProdi[i].NamaProdi} ({daftarProdi[i].KodeProdi})");
+                    Console.WriteLine($"[{i + 1}] {daftarProdi[i].NamaProdi} ({daftarProdi[i].IDProdi})");
                 }
                 Console.Write("Pilih Prodi (nomor): ");
 
@@ -328,7 +328,7 @@ namespace Project_PBO
                 }
             } while (selectedProdi == null);
 
-            mhs.IDProdi = selectedProdi.KodeProdi;
+            mhs.IDProdi = selectedProdi.IDProdi;
 
             // Angkatan
             int angkatan;
@@ -411,7 +411,7 @@ namespace Project_PBO
             Console.WriteLine("--- Daftar Prodi ---");
             for (int i = 0; i < daftarProdi.Count; i++)
             {
-                Console.WriteLine($"[{i + 1}] {daftarProdi[i].NamaProdi} ({daftarProdi[i].KodeProdi})");
+                Console.WriteLine($"[{i + 1}] {daftarProdi[i].NamaProdi} ({daftarProdi[i].IDProdi})");
             }
             Console.Write("Pilih Prodi baru (nomor, ENTER untuk skip): ");
             string prodiInput = Console.ReadLine();
@@ -420,7 +420,7 @@ namespace Project_PBO
                 if (int.TryParse(prodiInput, out int pilihanProdi) &&
                     pilihanProdi >= 1 && pilihanProdi <= daftarProdi.Count)
                 {
-                    mhs.IDProdi = daftarProdi[pilihanProdi - 1].KodeProdi;
+                    mhs.IDProdi = daftarProdi[pilihanProdi - 1].IDProdi;
                 }
             }
 

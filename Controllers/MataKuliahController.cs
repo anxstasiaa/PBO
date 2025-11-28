@@ -68,7 +68,7 @@ namespace Project_PBO
                 }
             } while (string.IsNullOrWhiteSpace(mk.NamaMK));
 
-            //KodeProdi
+            //IDProdi
             string idProdi;
             do
             {
@@ -76,7 +76,7 @@ namespace Project_PBO
                 idProdi = Console.ReadLine()?.Trim();
 
                 // validasi prodi harus ada di daftarProdi
-                if (!daftarProdi.Any(p => p.KodeProdi == idProdi))
+                if (!daftarProdi.Any(p => p.IDProdi == idProdi))
                 {
                     Console.WriteLine("Kode Prodi tidak ditemukan! Coba lagi.");
                     continue; // ulangi input sampai benar
