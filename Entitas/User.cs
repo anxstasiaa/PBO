@@ -18,7 +18,7 @@ namespace Project_PBO
         public void InputUserAdm()
         {
             Console.WriteLine($"User dengan Username {Username}, Role {Role}, Prodi {IDProdi}");
-        }
+        } 
 
         public void InputUserMhs()
         {

@@ -57,7 +57,7 @@ namespace Project_PBO
                 HurufMutu = "A";
                 AngkaMutu = 4.0;
             }
-            else if (NilaiAkhir >= 95)
+            else if (NilaiAkhir >= 90)
             {
                 HurufMutu = "A-";
                 AngkaMutu = 3.75;

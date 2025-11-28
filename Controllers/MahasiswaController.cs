@@ -13,17 +13,19 @@ namespace Project_PBO
         static List<Nilai> daftarNilai = new List<Nilai>();
         static List<KelasKuliah> daftarKelasKuliah = new List<KelasKuliah>();
         static List<MataKuliah> daftarMataKuliah = new List<MataKuliah>();
+        static List<Tagihan> daftarTagihan = new List<Tagihan>();
 
-        public MahasiswaController(List<Mahasiswa> mhs, List<Prodi> prodi, List<Nilai> nilai, List<KelasKuliah> kelasKuliah, List<MataKuliah> mataKuliah)
+        public MahasiswaController(List<Mahasiswa> mhs, List<Prodi> prodi, List<Nilai> nilai, List<KelasKuliah> kelasKuliah, List<MataKuliah> mataKuliah, List<Tagihan> tagihan)
         {
             daftarMahasiswa = mhs;
             daftarProdi = prodi;
             daftarNilai = nilai;
             daftarKelasKuliah = kelasKuliah;
             daftarMataKuliah = mataKuliah;
+            daftarTagihan = tagihan;
         }
 
-        public void MenuKRS(string nim, string idProdi)
+        public void MenuKRS(string nim, string IDProdi)
         {
             Console.Clear();
             Console.WriteLine("===== KRS - Kartu Rencana Studi =====");
@@ -33,7 +35,7 @@ namespace Project_PBO
 
             // Ambil semua kelas dari prodi mahasiswa
             var kelasProdi = daftarKelasKuliah
-                .Where(k => k.IDProdi == idProdi && k.IDSemester == semesterAktif)
+                .Where(k => k.IDProdi == IDProdi && k.IDSemester == semesterAktif)
                 .ToList();
 
             if (kelasProdi.Count == 0)
@@ -51,7 +53,7 @@ namespace Project_PBO
                 int sks = mk?.SKS ?? 0;
 
                 Console.WriteLine($"{no}. {k.KodeKelas} | {k.KodeMK} - {namaMK} ({sks} SKS)");
-                Console.WriteLine($"   Dosen : {k.DosenPengampu}");
+                Console.WriteLine($"   Dosen : {k.DosenPengampu ?? "-"}");
                 Console.WriteLine($"   Kapasitas : {k.KapasitasKelas}, Terisi : {k.JumlahPeserta}");
                 no++;
             }
@@ -78,11 +80,25 @@ namespace Project_PBO
                 return;
             }
 
+            // AMBIL DATA MATA KULIAH
+            var mataKuliah = daftarMataKuliah.FirstOrDefault(m => m.KodeMK == kelasDipilih.KodeMK);
+
+
             // BUAT RECORD NILAI BARU
             daftarNilai.Add(new Nilai
             {
                 NIM = nim,
                 KodeKelas = kelasDipilih.KodeKelas,
+                KodeMK = kelasDipilih.KodeMK,                    
+                IDProdi = kelasDipilih.IDProdi,                  
+                IDSemester = kelasDipilih.IDSemester,            
+                NamaMK = mataKuliah?.NamaMK ?? "",               
+                SKS = mataKuliah?.SKS ?? 0,                      
+                NilaiTugas = 0,                                   
+                NilaiUTS = 0,                                     
+                NilaiUAS = 0,                                     
+                NilaiSoftSkill = 0,                               
+                NilaiAkhir = 0,                                   
                 AngkaMutu = null,
                 HurufMutu = null
             });
@@ -102,6 +118,13 @@ namespace Project_PBO
             Console.Write("Masukkan semester (misal 20241): ");
             string sem = Console.ReadLine()?.Trim();
 
+            if (string.IsNullOrWhiteSpace(sem))
+            {
+                Console.WriteLine("Semester tidak valid!");
+                Console.ReadLine();
+                return;
+            }
+
             var nilaiMhs = daftarNilai
                 .Where(n => n.NIM == nim)
                 .Where(n =>
@@ -119,16 +142,62 @@ namespace Project_PBO
             }
 
             Console.WriteLine("\nMK  |  Nama Mata Kuliah          | SKS | NH | NA");
+            Console.WriteLine("--------+-------------------------------+-----+----+------");
+
+            double totalNilai = 0;
+            int totalSKS = 0;
 
             foreach (var n in nilaiMhs)
             {
-                var kelas = daftarKelasKuliah.First(k => k.KodeKelas == n.KodeKelas);
-                var mk = daftarMataKuliah.FirstOrDefault(m => m.KodeMK == kelas.KodeMK);
+                var kelas = daftarKelasKuliah.FirstOrDefault(k => k.KodeKelas == n.KodeKelas);
+                if (kelas == null) continue;
 
-                Console.WriteLine($"{mk.KodeMK,-4}| {mk.NamaMK,-27} | {mk.SKS,3} | {n.HurufMutu ?? "-"} | {n.AngkaMutu?.ToString() ?? "-"}");
+                var mk = daftarMataKuliah.FirstOrDefault(m => m.KodeMK == kelas.KodeMK);
+                if (mk == null) continue;
+
+                string huruf = n.HurufMutu ?? "-";
+                string angka = n.AngkaMutu.HasValue ? n.AngkaMutu.Value.ToString("0.00") : "-";
+
+                Console.WriteLine($"{mk.KodeMK,-7} | {mk.NamaMK,-29} | {mk.SKS,3} | {huruf,-2} | {angka,4}");
+
+                if (n.AngkaMutu.HasValue)
+                {
+                    totalNilai += n.AngkaMutu.Value * mk.SKS;
+                    totalSKS += mk.SKS;
+                }
             }
 
+            if (totalSKS > 0)
+            {
+                double ipSemester = totalNilai / totalSKS;
+                Console.WriteLine("--------+-------------------------------+-----+----+------");
+                Console.WriteLine($"IP Semester: {ipSemester:0.00}");
+            }
+
+            Console.WriteLine("\nTekan Enter untuk kembali...");
             Console.ReadLine();
         }
+
+        public void LihatTagihan(string nim)
+        { 
+            Console.Clear();
+            Console.WriteLine("===== Tagihan Mahasiswa =====");
+
+            var tagihanMhs = daftarTagihan
+            .Where(t => t.NIM == nim)
+            .OrderBy(t => t.IsLunas)
+            .ToList();
+
+            if (tagihanMhs.Count == 0)
+            {
+                Console.WriteLine("Tidak ada tagihan.");
+                Console.WriteLine("\nTekan Enter untuk kembali...");
+                Console.ReadLine();
+                return;
+            }
+            
+        }
+
+
     }
 }

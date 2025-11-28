@@ -127,17 +127,19 @@ namespace Project_PBO
             }
 
             Console.WriteLine("\nDaftar Mahasiswa:");
-            Console.WriteLine("NIM        | Nama                     | Nilai Angka | Nilai Huruf");
+            Console.WriteLine("No | NIM        | Nama                     | Nilai Akhir | Huruf");
+            Console.WriteLine("---+------------+--------------------------+-------------+------");
 
+            int no = 1;
             foreach (var n in daftarNilaiKelas)
             {
                 var m = daftarMahasiswa.FirstOrDefault(x => x.NIM == n.NIM);
                 string nama = m?.NamaMhs ?? "(Nama tidak ditemukan)";
+                string nilaiAkhir = n.NilaiAkhir > 0 ? n.NilaiAkhir.ToString("0.00") : "-";
+                string hurufmutu = n.HurufMutu ?? "-";
 
-                Console.WriteLine(n.NIM.PadRight(10) +
-                                  " | " + nama.PadRight(22) +
-                                  " | " + n.NilaiAkhir.ToString().PadLeft(11) +
-                                  " | " + n.HurufMutu);
+                Console.WriteLine($"{no,2} | {n.NIM,-10} | {nama,-24} | {nilaiAkhir,11} | {hurufmutu,-5}");
+                no++;
             }
 
             Console.Write("\nMasukkan NIM mahasiswa yang ingin diubah nilainya: ");
@@ -151,17 +153,71 @@ namespace Project_PBO
                 return;
             }
 
-            Console.Write("Masukkan nilai angka baru: ");
-            if (double.TryParse(Console.ReadLine(), out double nilaiAngkaBaru))
-                nilaiObj.NilaiAkhir = nilaiAngkaBaru;
+            Console.WriteLine("\n=== Input Komponen Nilai (0-100) ===");
 
-            Console.Write("Masukkan nilai huruf baru (A/B/C/D/E): ");
-            string huruf = Console.ReadLine()?.Trim().ToUpper();
-            if (!string.IsNullOrEmpty(huruf))
-                nilaiObj.HurufMutu = huruf;
+            // Input Nilai Tugas
+            double tugas;
+            do
+            {
+                Console.Write("Nilai Tugas (0-100): ");
+                if (!double.TryParse(Console.ReadLine(), out tugas) || tugas < 0 || tugas > 100)
+                {
+                    Console.WriteLine("Nilai harus antara 0-100!");
+                    tugas = -1;
+                }
+            } while (tugas < 0);
+            nilaiObj.NilaiTugas = tugas;
 
-            Console.WriteLine("\nNilai berhasil diperbarui.");
+            // Input Nilai UTS
+            double uts;
+            do
+            {
+                Console.Write("Nilai UTS (0-100): ");
+                if (!double.TryParse(Console.ReadLine(), out uts) || uts < 0 || uts > 100)
+                {
+                    Console.WriteLine("Nilai harus antara 0-100!");
+                    uts = -1;
+                }
+            } while (uts < 0);
+            nilaiObj.NilaiUTS = uts;
+
+            // Input Nilai UAS
+            double uas;
+            do
+            {
+                Console.Write("Nilai UAS (0-100): ");
+                if (!double.TryParse(Console.ReadLine(), out uas) || uas < 0 || uas > 100)
+                {
+                    Console.WriteLine("Nilai harus antara 0-100!");
+                    uas = -1;
+                }
+            } while (uas < 0);
+            nilaiObj.NilaiUAS = uas;
+
+            // Input Nilai Soft Skill
+            double softskill;
+            do
+            {
+                Console.Write("Nilai Soft Skill (0-100): ");
+                if (!double.TryParse(Console.ReadLine(), out softskill) || softskill < 0 || softskill > 100)
+                {
+                    Console.WriteLine("Nilai harus antara 0-100!");
+                    softskill = -1;
+                }
+            } while (softskill < 0);
+            nilaiObj.NilaiSoftSkill = softskill;
+
+            // HITUNG NILAI AKHIR DAN HURUF MUTU
+            nilaiObj.HitungNilaiAkhir();
+
+            Console.WriteLine("\n✓ Nilai berhasil diperbarui!");
+            Console.WriteLine($"Nilai Akhir: {nilaiObj.NilaiAkhir:0.00}");
+            Console.WriteLine($"Huruf Mutu: {nilaiObj.HurufMutu}");
+            Console.WriteLine($"Angka Mutu: {nilaiObj.AngkaMutu:0.00}");
+
+            Console.WriteLine("\nTekan Enter untuk kembali...");
             Console.ReadLine();
         }
+
     }
 }

@@ -16,15 +16,23 @@ namespace Project_PBO
         static List<Semester> daftarSemester = new List<Semester>();
         static List<KelasKuliah> daftarKelasKuliah = new List<KelasKuliah>();
         static List<Nilai> daftarNilai = new List<Nilai>();
+        static List<Tagihan> daftarTagihan = new List<Tagihan>();
         static List<User> Users = new List<User>
         {
-            new User { Username="admin-univ", Password="123", Role="AdminUniv" },
-            new User { Username="admin-prodi", Password="123", Role="AdminProdi", IDProdi="ILKOM" },
+            new User { Username="admin-univ",  Password="123", Role="AdminUniv" },
+            new User { Username="admin-ilkom", Password="123", Role="AdminProdi", IDProdi="11111" },
+            new User { Username="admin-bio",   Password="123", Role="AdminProdi", IDProdi="22222" },
+            new User { Username="admin-fis", Password="123", Role="AdminProdi", IDProdi="33333" },
             new User { Username="dosen_ilkom", Password="123", Role="Dosen", IDProdi="11111" },
             new User { Username="dosen_bio",   Password="123", Role="Dosen", IDProdi="22222" },
             new User { Username="dosen_fis",   Password="123", Role="Dosen", IDProdi="33333" },
             new User { Username="dosen_dok",   Password="123", Role="Dosen", IDProdi="44444" },
-            new User { Username="mhs", Password="123", Role="Mahasiswa", NIM="240608", IDProdi="ILKOM" }
+            new User { Username="mhs1",        Password="123", Role="Mahasiswa", NIM="2401010001", IDProdi="11111" },
+            new User { Username="mhs2",        Password="123", Role="Mahasiswa", NIM="2401010002", IDProdi="11111" },
+            new User { Username="mhs3",        Password="123", Role="Mahasiswa", NIM="2301010003", IDProdi="11111" },
+            new User { Username="mhs4",        Password="123", Role="Mahasiswa", NIM="2402020001", IDProdi="22222" },
+            new User { Username="mhs5",        Password="123", Role="Mahasiswa", NIM="2402020002", IDProdi="22222" },
+            new User { Username="mhs6",        Password="123", Role="Mahasiswa", NIM="2403030001", IDProdi="33333" }
         };
 
         static MahasiswaController mhsCtrl;
@@ -36,8 +44,9 @@ namespace Project_PBO
         static SemesterController SemCtrl;
         static KelasKuliahController KKCtrl;
         static NilaiController NilaiCtrl;
+        static TagihanController TagihanCtrl;
 
-        
+
         static void Main()
         {
             if (daftarProdi.Count == 0)
@@ -48,14 +57,362 @@ namespace Project_PBO
                 daftarProdi.Add(new Prodi { IDProdi = "44444", NamaProdi = "Kedokteran", AliasProdi = "KED" });
             }
 
-            mhsCtrl = new MahasiswaController(daftarMahasiswa, daftarProdi, daftarNilai, daftarKelasKuliah, daftarMataKuliah);
+            if (daftarAdminUniv.Count == 0)
+            {
+                daftarAdminUniv.Add(new AdminUniv { Username = "admin-univ", Password = "123", Role = "AdminUniv" });
+                daftarAdminUniv.Add(new AdminUniv { Username = "admin-univ2", Password = "123", Role = "AdminUniv" });
+                daftarAdminUniv.Add(new AdminUniv { Username = "admin-univ3", Password = "123", Role = "AdminUniv" });
+            }
+
+            if (daftarAdminProdi.Count == 0)
+            {
+                daftarAdminProdi.Add(new AdminProdi { Username = "admin-prodi", Password = "123", Role = "AdminProdi", IDProdi = "11111", NamaProdi = "Ilmu Komputer" });
+                daftarAdminProdi.Add(new AdminProdi { Username = "admin-bio", Password = "123", Role = "AdminProdi", IDProdi = "22222", NamaProdi = "Biologi" });
+                daftarAdminProdi.Add(new AdminProdi { Username = "admin-fis", Password = "123", Role = "AdminProdi", IDProdi = "33333", NamaProdi = "Fisika" });
+            }
+
+            if (daftarSemester.Count == 0)
+            {
+                daftarSemester.Add(new Semester { IDSemester = "20241", namaSemester = "Ganjil", TahunAjaran = "2024/2025" });
+                daftarSemester.Add(new Semester { IDSemester = "20242", namaSemester = "Genap", TahunAjaran = "2024/2025" });
+                daftarSemester.Add(new Semester { IDSemester = "20251", namaSemester = "Ganjil", TahunAjaran = "2025/2026" });
+            }
+
+            if (daftarMataKuliah.Count == 0)
+            {
+                // Mata Kuliah Ilmu Komputer
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "ILK001", NamaMK = "Pemrograman Berorientasi Objek", SKS = 3, IDProdi = "11111", Semester = 3, DosenPengampu = "Dr. Budi Santoso" });
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "ILK002", NamaMK = "Struktur Data", SKS = 4, IDProdi = "11111", Semester = 2, DosenPengampu = "Prof. Ani Wijaya" });
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "ILK003", NamaMK = "Basis Data", SKS = 3, IDProdi = "11111", Semester = 3, DosenPengampu = "Dr. Citra Dewi" });
+
+                // Mata Kuliah Biologi
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "BIO001", NamaMK = "Biologi Molekuler", SKS = 3, IDProdi = "22222", Semester = 4, DosenPengampu = "Dr. Dedi Hartono" });
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "BIO002", NamaMK = "Ekologi dan Lingkungan", SKS = 3, IDProdi = "22222", Semester = 3, DosenPengampu = "Prof. Eka Sari" });
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "BIO003", NamaMK = "Genetika Dasar", SKS = 4, IDProdi = "22222", Semester = 2, DosenPengampu = "Dr. Feri Gunawan" });
+
+                // Mata Kuliah Fisika
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "FIS001", NamaMK = "Fisika Kuantum", SKS = 4, IDProdi = "33333", Semester = 5, DosenPengampu = "Prof. Gita Permana" });
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "FIS002", NamaMK = "Termodinamika", SKS = 3, IDProdi = "33333", Semester = 4, DosenPengampu = "Dr. Hendra Kusuma" });
+                daftarMataKuliah.Add(new MataKuliah { KodeMK = "FIS003", NamaMK = "Mekanika Klasik", SKS = 4, IDProdi = "33333", Semester = 3, DosenPengampu = "Prof. Indah Lestari" });
+            }
+
+            if (daftarSemester.Count == 0)
+            {
+                daftarSemester.Add(new Semester
+                {
+                    IDSemester = "20241",
+                    namaSemester = "Ganjil",
+                    TahunAjaran = "2024/2025"
+                });
+            }
+
+            if (daftarDosen.Count == 0)
+            {
+                daftarDosen.Add(new Dosen
+                {
+                    NIDN = "0123456789",
+                    NamaDosen = "Dr. Budi Santoso",
+                    IDProdi = "11111",
+                    JenisKelamin = "L",
+                    JabatanFungsional = "Lektor",
+                    MataKuliahDiampu = new List<string> { "ILK001" }
+                });
+
+                daftarDosen.Add(new Dosen
+                {
+                    NIDN = "0123456790",
+                    NamaDosen = "Prof. Ani Wijaya",
+                    IDProdi = "11111",
+                    JenisKelamin = "P",
+                    JabatanFungsional = "Guru Besar",
+                    MataKuliahDiampu = new List<string> { "ILK002" }
+                });
+
+                daftarDosen.Add(new Dosen
+                {
+                    NIDN = "0123456791",
+                    NamaDosen = "Dr. Citra Dewi",
+                    IDProdi = "11111",
+                    JenisKelamin = "P",
+                    JabatanFungsional = "Lektor Kepala",
+                    MataKuliahDiampu = new List<string> { "ILK003" }
+                });
+
+                daftarDosen.Add(new Dosen
+                {
+                    NIDN = "0223456789",
+                    NamaDosen = "Dr. Dedi Hartono",
+                    IDProdi = "22222",
+                    JenisKelamin = "L",
+                    JabatanFungsional = "Lektor",
+                    MataKuliahDiampu = new List<string> { "BIO001" }
+                });
+
+                daftarDosen.Add(new Dosen
+                {
+                    NIDN = "0323456789",
+                    NamaDosen = "Prof. Gita Permana",
+                    IDProdi = "33333",
+                    JenisKelamin = "P",
+                    JabatanFungsional = "Guru Besar",
+                    MataKuliahDiampu = new List<string> { "FIS001" }
+                });
+            }
+
+            if (daftarMahasiswa.Count == 0)
+            {
+                // Mahasiswa Ilmu Komputer
+                daftarMahasiswa.Add(new Mahasiswa
+                {
+                    NIM = "2401010001",
+                    NamaMhs = "AHMAD RIZKI PRASETYO",
+                    AlamatMhs = "Jl. Merdeka No. 10, Jakarta",
+                    JenisKelamin = 'L',
+                    IDProdi = "11111",
+                    Angkatan = 2024,
+                    TanggalLahir = new DateTime(2006, 5, 15),
+                    SemesterAktif = "20241"
+                });
+
+                daftarMahasiswa.Add(new Mahasiswa
+                {
+                    NIM = "2401010002",
+                    NamaMhs = "SITI NURHALIZA",
+                    AlamatMhs = "Jl. Sudirman No. 25, Bandung",
+                    JenisKelamin = 'P',
+                    IDProdi = "11111",
+                    Angkatan = 2024,
+                    TanggalLahir = new DateTime(2006, 8, 20),
+                    SemesterAktif = "20241"
+                });
+
+                daftarMahasiswa.Add(new Mahasiswa
+                {
+                    NIM = "2301010003",
+                    NamaMhs = "BUDI SETIAWAN",
+                    AlamatMhs = "Jl. Gatot Subroto No. 5, Surabaya",
+                    JenisKelamin = 'L',
+                    IDProdi = "11111",
+                    Angkatan = 2023,
+                    TanggalLahir = new DateTime(2005, 3, 10),
+                    SemesterAktif = "20241"
+                });
+
+                // Mahasiswa Biologi
+                daftarMahasiswa.Add(new Mahasiswa
+                {
+                    NIM = "2402020001",
+                    NamaMhs = "DEWI KUSUMA WARDHANI",
+                    AlamatMhs = "Jl. Diponegoro No. 15, Yogyakarta",
+                    JenisKelamin = 'P',
+                    IDProdi = "22222",
+                    Angkatan = 2024,
+                    TanggalLahir = new DateTime(2006, 11, 5),
+                    SemesterAktif = "20241"
+                });
+
+                daftarMahasiswa.Add(new Mahasiswa
+                {
+                    NIM = "2402020002",
+                    NamaMhs = "FIKRI HAMDANI",
+                    AlamatMhs = "Jl. Ahmad Yani No. 8, Semarang",
+                    JenisKelamin = 'L',
+                    IDProdi = "22222",
+                    Angkatan = 2024,
+                    TanggalLahir = new DateTime(2006, 2, 28),
+                    SemesterAktif = "20241"
+                });
+
+                // Mahasiswa Fisika
+                daftarMahasiswa.Add(new Mahasiswa
+                {
+                    NIM = "2403030001",
+                    NamaMhs = "GALIH PRATAMA",
+                    AlamatMhs = "Jl. Thamrin No. 12, Medan",
+                    JenisKelamin = 'L',
+                    IDProdi = "33333",
+                    Angkatan = 2024,
+                    TanggalLahir = new DateTime(2006, 7, 18),
+                    SemesterAktif = "20241"
+                });
+            }
+
+            if (daftarKelasKuliah.Count == 0)
+            {
+                // Kelas Ilmu Komputer
+                daftarKelasKuliah.Add(new KelasKuliah
+                {
+                    KodeKelas = "ILK001-A",
+                    KodeMK = "ILK001",
+                    IDProdi = "11111",
+                    IDSemester = "20241",
+                    Ruangan = "R301",
+                    NamaKelas = "PBO Kelas A",
+                    KapasitasKelas = 40,
+                    JumlahPeserta = 2,
+                    DosenPengampu = "dosen_ilkom"
+                });
+
+                daftarKelasKuliah.Add(new KelasKuliah
+                {
+                    KodeKelas = "ILK002-A",
+                    KodeMK = "ILK002",
+                    IDProdi = "11111",
+                    IDSemester = "20241",
+                    Ruangan = "R302",
+                    NamaKelas = "Strukdat Kelas A",
+                    KapasitasKelas = 35,
+                    JumlahPeserta = 1,
+                    DosenPengampu = "dosen_ilkom"
+                });
+
+                daftarKelasKuliah.Add(new KelasKuliah
+                {
+                    KodeKelas = "ILK003-B",
+                    KodeMK = "ILK003",
+                    IDProdi = "11111",
+                    IDSemester = "20241",
+                    Ruangan = "LAB-DB",
+                    NamaKelas = "Basis Data Kelas B",
+                    KapasitasKelas = 30,
+                    JumlahPeserta = 0,
+                    DosenPengampu = "dosen_ilkom"
+                });
+
+                // Kelas Biologi
+                daftarKelasKuliah.Add(new KelasKuliah
+                {
+                    KodeKelas = "BIO001-A",
+                    KodeMK = "BIO001",
+                    IDProdi = "22222",
+                    IDSemester = "20241",
+                    Ruangan = "LAB-BIO1",
+                    NamaKelas = "Biomol Kelas A",
+                    KapasitasKelas = 25,
+                    JumlahPeserta = 1,
+                    DosenPengampu = "dosen_bio"
+                });
+
+                daftarKelasKuliah.Add(new KelasKuliah
+                {
+                    KodeKelas = "BIO002-A",
+                    KodeMK = "BIO002",
+                    IDProdi = "22222",
+                    IDSemester = "20241",
+                    Ruangan = "R201",
+                    NamaKelas = "Ekologi Kelas A",
+                    KapasitasKelas = 30,
+                    JumlahPeserta = 1,
+                    DosenPengampu = "dosen_bio"
+                });
+
+                // Kelas Fisika
+                daftarKelasKuliah.Add(new KelasKuliah
+                {
+                    KodeKelas = "FIS001-A",
+                    KodeMK = "FIS001",
+                    IDProdi = "33333",
+                    IDSemester = "20241",
+                    Ruangan = "LAB-FIS",
+                    NamaKelas = "Fisika Kuantum A",
+                    KapasitasKelas = 30,
+                    JumlahPeserta = 1,
+                    DosenPengampu = "dosen_fis"
+                });
+            }
+
+            if (daftarNilai.Count == 0)
+            {
+                // Nilai untuk mahasiswa Ilmu Komputer
+                daftarNilai.Add(new Nilai
+                {
+                    NIM = "2401010001",
+                    KodeKelas = "ILK001-A",
+                    NilaiTugas = 85,
+                    NilaiUTS = 80,
+                    NilaiUAS = 88,
+                    NilaiSoftSkill = 90,
+                    NilaiAkhir = 85.45,
+                    HurufMutu = "B+",
+                    AngkaMutu = 3.25
+                });
+
+                daftarNilai.Add(new Nilai
+                {
+                    NIM = "2401010002",
+                    KodeKelas = "ILK001-A",
+                    NilaiTugas = 90,
+                    NilaiUTS = 92,
+                    NilaiUAS = 95,
+                    NilaiSoftSkill = 88,
+                    NilaiAkhir = 92.2,
+                    HurufMutu = "A-",
+                    AngkaMutu = 3.75
+                });
+
+                daftarNilai.Add(new Nilai
+                {
+                    NIM = "2301010003",
+                    KodeKelas = "ILK002-A",
+                    NilaiTugas = 78,
+                    NilaiUTS = 75,
+                    NilaiUAS = 80,
+                    NilaiSoftSkill = 85,
+                    NilaiAkhir = 78.7,
+                    HurufMutu = "B-",
+                    AngkaMutu = 2.75
+                });
+
+                // Nilai untuk mahasiswa Biologi
+                daftarNilai.Add(new Nilai
+                {
+                    NIM = "2402020001",
+                    KodeKelas = "BIO001-A",
+                    NilaiTugas = 88,
+                    NilaiUTS = 85,
+                    NilaiUAS = 90,
+                    NilaiSoftSkill = 92,
+                    NilaiAkhir = 88.15,
+                    HurufMutu = "B+",
+                    AngkaMutu = 3.25
+                });
+
+                daftarNilai.Add(new Nilai
+                {
+                    NIM = "2402020002",
+                    KodeKelas = "BIO002-A",
+                    NilaiTugas = 82,
+                    NilaiUTS = 80,
+                    NilaiUAS = 85,
+                    NilaiSoftSkill = 80,
+                    NilaiAkhir = 82.05,
+                    HurufMutu = "B",
+                    AngkaMutu = 3.0
+                });
+
+                // Nilai untuk mahasiswa Fisika
+                daftarNilai.Add(new Nilai
+                {
+                    NIM = "2403030001",
+                    KodeKelas = "FIS001-A",
+                    NilaiTugas = 95,
+                    NilaiUTS = 92,
+                    NilaiUAS = 96,
+                    NilaiSoftSkill = 94,
+                    NilaiAkhir = 94.05,
+                    HurufMutu = "A-",
+                    AngkaMutu = 3.75
+                });
+            }
+
+            mhsCtrl = new MahasiswaController(daftarMahasiswa, daftarProdi, daftarNilai, daftarKelasKuliah, daftarMataKuliah, daftarTagihan);
             MKCtrl = new MataKuliahController(daftarProdi);
             ProdiCtrl = new ProdiController(daftarMahasiswa, daftarProdi, daftarMataKuliah);
             SemCtrl = new SemesterController(daftarSemester);
             KKCtrl = new KelasKuliahController(daftarKelasKuliah, daftarMataKuliah, daftarProdi, daftarSemester, daftarDosen);
             NilaiCtrl = new NilaiController(daftarNilai, daftarMahasiswa, daftarKelasKuliah, daftarMataKuliah);
             dsnCtrl = new DosenController(daftarDosen, daftarProdi, daftarMataKuliah, daftarNilai, daftarKelasKuliah, daftarMahasiswa);
-
+            TagihanCtrl = new TagihanController(daftarMahasiswa, daftarTagihan, daftarSemester);
             AdmProdiCtrl = new AdminProdiController(daftarAdminProdi, daftarProdi, daftarKelasKuliah, daftarMataKuliah, daftarSemester);
             AdmUnivCtrl = new AdminUnivController(daftarAdminUniv, daftarMahasiswa, daftarProdi, daftarNilai);
 
@@ -63,15 +420,15 @@ namespace Project_PBO
             do
             {
                 Console.Clear();
-                Console.WriteLine("===================================");
-                Console.WriteLine("     Sistem Akademik Universitas   ");
-                Console.WriteLine("===================================");
-                Console.WriteLine("[1] Login sebagai Admin Universitas");
-                Console.WriteLine("[2] Login sebagai Admin Prodi      ");
-                Console.WriteLine("[3] Login sebagai Dosen            ");
-                Console.WriteLine("[4] Login sebagai Mahasiswa        ");
-                Console.WriteLine("[5] Keluar                         ");
-                Console.WriteLine("===================================");
+                Console.WriteLine("====================================");
+                Console.WriteLine("     Sistem Akademik Universitas    ");
+                Console.WriteLine("====================================");
+                Console.WriteLine("|[1] Login sebagai Admin Universitas|");
+                Console.WriteLine("|[2] Login sebagai Admin Prodi      |");
+                Console.WriteLine("|[3] Login sebagai Dosen            |");
+                Console.WriteLine("|[4] Login sebagai Mahasiswa        |");
+                Console.WriteLine("|[5] Keluar                         |");
+                Console.WriteLine("====================================");
                 Console.Write("Pilih menu: ");
                 while (!int.TryParse(Console.ReadLine(), out login))
                 {
@@ -107,7 +464,7 @@ namespace Project_PBO
         {
             Console.Clear();
             Console.WriteLine("==================================");
-            Console.WriteLine("             Login User            ");
+            Console.WriteLine("             Login User           ");
             Console.WriteLine("==================================");
             Console.Write("Username: ");
             string username = Console.ReadLine();
@@ -148,9 +505,9 @@ namespace Project_PBO
             {
                 Console.Clear();
                 Console.WriteLine("======== MENU ADMIN UNIVERSITAS ========");
-                Console.WriteLine("1. Manajemen Prodi");
-                Console.WriteLine("2. Manajemen Mahasiswa");
-                Console.WriteLine("3. Logout");
+                Console.WriteLine("|1. Manajemen Prodi                    |");
+                Console.WriteLine("|2. Manajemen Mahasiswa                |");
+                Console.WriteLine("|3. Logout                             |");
                 Console.WriteLine("========================================");
                 Console.Write("Pilih menu: ");
 
@@ -193,14 +550,15 @@ namespace Project_PBO
             {
                 Console.Clear();
                 Console.WriteLine("======== MANAGEMEN PRODI ========");
-                Console.WriteLine("1. Daftar Prodi");
-                Console.WriteLine("2. Tambah Prodi");
-                Console.WriteLine("3. Kembali ke Menu Admin Univ");
+                Console.WriteLine("|1. Daftar Prodi                 |");
+                Console.WriteLine("|2. Tambah Prodi                 |");
+                Console.WriteLine("|3. Manajemen Tagihan Mahasiswa  |");
+                Console.WriteLine("|4. Kembali ke Menu Admin Univ   |");
                 Console.WriteLine("=================================");
                 Console.Write("Pilih menu: ");
                 if (!int.TryParse(Console.ReadLine(), out pilihan))
                 {
-                    Console.WriteLine("\n❌ Input tidak valid!");
+                    Console.WriteLine("\n Input tidak valid!");
                     Thread.Sleep(1000);
                     pilihan = 0;
                     continue;
@@ -215,6 +573,9 @@ namespace Project_PBO
                         ProdiCtrl.TambahProdi();
                         break;
                     case 3:
+                        TagihanCtrl.MenuAdminTagihan();
+                        break;
+                    case 4:
                         Console.WriteLine("Kembali ke Menu Admin Univ...");
                         break;
                     default:
@@ -222,7 +583,7 @@ namespace Project_PBO
                         Thread.Sleep(1000);
                         break;
                 }
-            } while (pilihan != 3);
+            } while (pilihan != 4);
         }
 
         static void MenuMahasiswaAdmin()
@@ -232,16 +593,17 @@ namespace Project_PBO
             {
                 Console.Clear();
                 Console.WriteLine("======== MANAGEMEN MAHASISWA ========");
-                Console.WriteLine("1. Daftar Mahasiswa");
-                Console.WriteLine("2. Tambah Mahasiswa");
-                Console.WriteLine("3. Ubah Mahasiswa");
-                Console.WriteLine("4. Hapus Mahasiswa");
-                Console.WriteLine("5. Kembali ke Menu Admin Univ");
+                Console.WriteLine("|1. Daftar Mahasiswa               |");
+                Console.WriteLine("|2. Tambah Mahasiswa               |");
+                Console.WriteLine("|3. Ubah Mahasiswa                 |");
+                Console.WriteLine("|4. Hapus Mahasiswa                |");
+                Console.WriteLine("|5. Kelola Tagihan Registrasi      |");
+                Console.WriteLine("|6. Kembali ke Menu Admin Univ     |");
                 Console.WriteLine("=====================================");
                 Console.Write("Pilih menu: ");
                 if (!int.TryParse(Console.ReadLine(), out pilihan))
                 {
-                    Console.WriteLine("\n❌ Input tidak valid!");
+                    Console.WriteLine("\n Input tidak valid!");
                     Thread.Sleep(1000);
                     pilihan = 0;
                     continue;
@@ -266,6 +628,11 @@ namespace Project_PBO
                         Console.ReadLine();
                         break;
                     case 5:
+                        TagihanCtrl.MenuAdminTagihan();
+                        Console.WriteLine("\nTekan ENTER untuk kembali...");
+                        Console.ReadLine();
+                        break;
+                    case 6:
                         Console.WriteLine("Kembali ke Menu Admin Univ...");
                         break;
                     default:
@@ -278,7 +645,7 @@ namespace Project_PBO
 
         static void LoginAdmProdi()
         {
-           
+            Console.Clear();
             Console.WriteLine("==================================");
             Console.WriteLine("           Login Admin Prodi      ");
             Console.WriteLine("==================================");
@@ -290,7 +657,7 @@ namespace Project_PBO
             User user = Users.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user == null)
             {
-                Console.WriteLine("\n❌ Username atau password salah. Silakan coba lagi.");
+                Console.WriteLine("\n Username atau password salah. Silakan coba lagi.");
                 Console.WriteLine("\nTekan Enter untuk melanjutkan...");
                 Console.ReadLine();
                 return;
@@ -299,7 +666,7 @@ namespace Project_PBO
             string roleNormalized = (user.Role ?? string.Empty).Replace("-", string.Empty).Replace(" ", string.Empty).ToLowerInvariant();
             if (roleNormalized != "adminprodi")
             {
-                Console.WriteLine("\n❌ Akun ini bukan Admin Prodi. Gunakan menu yang sesuai.");
+                Console.WriteLine("\n Akun ini bukan Admin Prodi. Gunakan menu yang sesuai.");
                 Console.WriteLine("\nTekan Enter untuk melanjutkan...");
                 Console.ReadLine();
                 return;
@@ -351,16 +718,16 @@ namespace Project_PBO
             do
             {
                 Console.Clear();
-                Console.WriteLine("========================================");
-                Console.WriteLine($"     Menu Admin Prodi ({user.IDProdi})   ");
-                Console.WriteLine("========================================");
-                Console.WriteLine("[1] Lihat Daftar Mahasiswa");
-                Console.WriteLine("[2] Kelola Mata Kuliah");
-                Console.WriteLine("[3] Kelola Kelas Kuliah");
-                Console.WriteLine("[4] Lihat Daftar Prodi");
-                Console.WriteLine("[5] Tambah Prodi");
-                Console.WriteLine("[6] Keluar");
-                Console.WriteLine("========================================");
+                Console.WriteLine("=========================================");
+                Console.WriteLine($"     Menu Admin Prodi ({user.IDProdi})  ");
+                Console.WriteLine("=========================================");
+                Console.WriteLine("|[1] Lihat Daftar Mahasiswa             |");
+                Console.WriteLine("|[2] Kelola Mata Kuliah                 |");
+                Console.WriteLine("|[3] Kelola Kelas Kuliah                |");
+                Console.WriteLine("|[4] Lihat Daftar Prodi                 |");
+                Console.WriteLine("|[5] Tambah Prodi                       |");
+                Console.WriteLine("|[6] Keluar                             |");
+                Console.WriteLine("=========================================");
                 Console.Write("Pilih menu: ");
                 if (!int.TryParse(Console.ReadLine(), out choice))
                 {
@@ -413,8 +780,8 @@ namespace Project_PBO
             }
             else
             {
-                Console.WriteLine("No | NIM        | Nama                    | Prodi | JK | Angkatan");
-                Console.WriteLine("---+------------+-------------------------+-------+----+---------");
+                Console.WriteLine("No | NIM        | Nama                   | Prodi | JK | Angkatan");
+                Console.WriteLine("---+------------+------------------------+-------+----+---------");
 
                 int no = 1;
                 foreach (var mhs in mahasiswaInProdi)
@@ -436,12 +803,12 @@ namespace Project_PBO
             {
                 Console.Clear();
                 Console.WriteLine($"\n====== Kelola Mata Kuliah ({IDProdi}) ======");
-                Console.WriteLine("| 1. Daftar Mata Kuliah                  |");
-                Console.WriteLine("| 2. Tambah Mata Kuliah                  |");
-                Console.WriteLine("| 3. Ubah Mata Kuliah                    |");
-                Console.WriteLine("| 4. Hapus Mata Kuliah                   |");
-                Console.WriteLine("| 5. Kembali ke Menu Admin Prodi         |");
-                Console.WriteLine("==========================================");
+                Console.WriteLine("| 1. Daftar Mata Kuliah                       |");
+                Console.WriteLine("| 2. Tambah Mata Kuliah                       |");
+                Console.WriteLine("| 3. Ubah Mata Kuliah                         |");
+                Console.WriteLine("| 4. Hapus Mata Kuliah                        |");
+                Console.WriteLine("| 5. Kembali ke Menu Admin Prodi              |");
+                Console.WriteLine("==============================================");
                 Console.Write("Pilih menu: ");
                 if(!int.TryParse(Console.ReadLine(), out pilihan))
                 {
@@ -491,12 +858,12 @@ namespace Project_PBO
             {
                 Console.Clear();
                 Console.WriteLine($"====== Kelola Kelas Kuliah ({IDProdi}) ======");
-                Console.WriteLine("| 1. Daftar Kelas Kuliah                 |");
-                Console.WriteLine("| 2. Tambah Kelas Kuliah                 |");
-                Console.WriteLine("| 3. Ubah Kelas Kuliah                   |");
-                Console.WriteLine("| 4. Hapus Kelas Kuliah                  |");
-                Console.WriteLine("| 5. Kembali ke Menu Admin Prodi         |");
-                Console.WriteLine("==========================================");
+                Console.WriteLine("| 1. Daftar Kelas Kuliah                     |");
+                Console.WriteLine("| 2. Tambah Kelas Kuliah                     |");
+                Console.WriteLine("| 3. Ubah Kelas Kuliah                       |");
+                Console.WriteLine("| 4. Hapus Kelas Kuliah                      |");
+                Console.WriteLine("| 5. Kembali ke Menu Admin Prodi             |");
+                Console.WriteLine("==============================================");
                 Console.Write("Pilih menu: ");
                 if (!int.TryParse(Console.ReadLine(), out pilihan))
                 {
@@ -616,16 +983,16 @@ namespace Project_PBO
             do
             {
                 Console.Clear();
-                Console.WriteLine("============== MENU DOSEN ================");
-                Console.WriteLine($"Dosen Prodi: {username}  ||  {IDProdi}   ");
-                Console.WriteLine("1. Lihat Kelas yang Diampu                ");
-                Console.WriteLine("2. Input/Ubah Nilai Mahasiswa             ");
-                Console.WriteLine("3. Keluar                                 ");
-                Console.WriteLine("==========================================");
+                Console.WriteLine("============== MENU DOSEN =================");
+                Console.WriteLine($" Dosen Prodi:  {username}  ||  {IDProdi}  |");
+                Console.WriteLine("|1. Lihat Kelas yang Diampu                |");
+                Console.WriteLine("|2. Input/Ubah Nilai Mahasiswa             |");
+                Console.WriteLine("|3. Keluar                                 |");
+                Console.WriteLine("===========================================");
                 Console.Write("Pilih menu: ");
                 if (!int.TryParse(Console.ReadLine(), out pilih))
                 {
-                    Console.WriteLine("\n❌ Input tidak valid!");
+                    Console.WriteLine("\n Input tidak valid!");
                     Thread.Sleep(1000);
                     pilih = 0;
                     continue;
@@ -663,15 +1030,16 @@ namespace Project_PBO
             {
                 Console.Clear();
                 Console.WriteLine("=========== MENU MAHASISWA ============");
-                Console.WriteLine($"Mahasiswa NIM: {NIM} || {IDProdi}     ");
-                Console.WriteLine("1. Lihat Kelas yang Diikuti            ");
-                Console.WriteLine("2. Lihat Nilai Mata Kuliah             ");
-                Console.WriteLine("3. Keluar");
+                Console.WriteLine($" Mahasiswa NIM:  {NIM} ||  {IDProdi}  |");
+                Console.WriteLine("|1. Lihat Kelas yang Diikuti           |");
+                Console.WriteLine("|2. Lihat Nilai Mata Kuliah            |");
+                Console.WriteLine("|3. Lihat Tagihan                      |");
+                Console.WriteLine("|4. Keluar                             |");
                 Console.WriteLine("=======================================");
                 Console.Write("Pilih menu: ");
                 if (!int.TryParse(Console.ReadLine(), out pilih))
                 {
-                    Console.WriteLine("\n❌ Input tidak valid!");
+                    Console.WriteLine("\n Input tidak valid!");
                     Thread.Sleep(1000);
                     pilih = 0;
                     continue;
@@ -689,6 +1057,11 @@ namespace Project_PBO
                         Console.ReadLine();
                         break;
                     case 3:
+                        mhsCtrl.LihatTagihan(user.NIM);
+                        Console.WriteLine("\nTekan ENTER untuk melanjutkan...");
+                        Console.ReadLine();
+                        break;
+                    case 4:
                         Console.WriteLine("Logout...");
                         Thread.Sleep(1000);
                         break;
@@ -697,7 +1070,7 @@ namespace Project_PBO
                         Thread.Sleep(1000);
                         break;
                 }
-            } while (pilih != 3);
+            } while (pilih != 4);
 
         }
 

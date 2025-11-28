@@ -49,7 +49,7 @@ namespace Project_PBO
                     Console.WriteLine("Kode tidak boleh kosong!");
                     mk.KodeMK = null;
                 }
-                else if (daftarMataKuliah.Any(x => x.KodeMK == mk.KodeMK))
+                else if (daftarMataKuliah.Any(x => string.Equals(x.KodeMK, mk.KodeMK, StringComparison.OrdinalIgnoreCase)))
                 {
                     Console.WriteLine("Kode sudah terdaftar. Gunakan kode lain.");
                     mk.KodeMK = null;
@@ -69,21 +69,22 @@ namespace Project_PBO
             } while (string.IsNullOrWhiteSpace(mk.NamaMK));
 
             //IDProdi
-            string idProdi;
+            string IDProdi;
             do
             {
                 Console.Write("Masukkan Kode Prodi: ");
-                idProdi = Console.ReadLine()?.Trim();
+                IDProdi = Console.ReadLine()?.Trim().ToUpper();
 
                 // validasi prodi harus ada di daftarProdi
-                if (!daftarProdi.Any(p => p.IDProdi == idProdi))
+                if (!daftarProdi.Any(p => string.Equals(p.IDProdi, IDProdi, StringComparison.OrdinalIgnoreCase)))
                 {
                     Console.WriteLine("Kode Prodi tidak ditemukan! Coba lagi.");
-                    continue; // ulangi input sampai benar
+                    continue;
                 }
-                break; // keluar dari loop kalau valid
+                break;
             } while (true);
-            mk.IDProdi = idProdi;
+            mk.IDProdi = IDProdi;
+
 
             // SKS (1-6)
             int SKSVal;

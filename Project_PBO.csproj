@@ -52,6 +52,7 @@
     <Compile Include="Controllers\NilaiController.cs" />
     <Compile Include="Controllers\ProdiController.cs" />
     <Compile Include="Controllers\SemesterController.cs" />
+    <Compile Include="Controllers\TagihanController.cs" />
     <Compile Include="Entitas\AdminProdi.cs" />
     <Compile Include="Entitas\AdminUniv.cs" />
     <Compile Include="Entitas\Dosen.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Entitas\Nilai.cs" />
     <Compile Include="Entitas\Prodi.cs" />
     <Compile Include="Entitas\Semester.cs" />
+    <Compile Include="Entitas\Tagihan.cs" />
     <Compile Include="Entitas\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
