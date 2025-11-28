@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading; 
 using System.Threading.Tasks;
 
 namespace Project_PBO
@@ -50,16 +51,25 @@ namespace Project_PBO
                 if (string.IsNullOrWhiteSpace(kode))
                 {
                     Console.WriteLine("Kode Prodi tidak boleh kosong.");
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    Console.WriteLine("===== Tambah Program Studi =====");
                     continue;
                 }
                 if (kode.Length > 5)
                 {
                     Console.WriteLine("Kode Prodi maksimal 5 karakter.");
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    Console.WriteLine("===== Tambah Program Studi =====");
                     continue;
                 }
                 if (daftarProdi.Any(x => string.Equals(x.KodeProdi, kode, StringComparison.OrdinalIgnoreCase)))
                 {
                     Console.WriteLine("Kode Prodi sudah ada. Gunakan kode lain.");
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                    Console.WriteLine("===== Tambah Program Studi =====");
                     continue;
                 }
                 break;
