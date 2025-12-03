@@ -18,6 +18,7 @@ namespace Project_PBO
 
         public void DaftarMataKuliah()
         {
+            Console.Clear();
             Console.WriteLine("\n=== Daftar Mata Kuliah ===");
             if (daftarMataKuliah.Count == 0)
             {

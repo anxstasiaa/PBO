@@ -17,6 +17,7 @@ namespace Project_PBO
             daftarSemester = sem;
         }
 
+        // Menu untuk admin prodi mengelola tagihan
         public void MenuAdminTagihan()
         {
             string pilih;
@@ -181,6 +182,7 @@ namespace Project_PBO
             if (list.Count == 0)
             {
                 Console.WriteLine("Tidak ada tagihan.");
+                Console.WriteLine("\nTekan ENTER untuk melanjutkan...");
                 Console.ReadLine();
                 return;
             }

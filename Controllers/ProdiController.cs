@@ -41,6 +41,7 @@ namespace Project_PBO
         }
         public void TambahProdi()
         {
+            Console.Clear();
             Console.WriteLine("\n=== Tambah Prodi ===");
             Prodi p = new Prodi();
 

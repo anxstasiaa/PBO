@@ -171,24 +171,6 @@ namespace Project_PBO
 
 
         // ============================================================
-        // =============== FITUR UNTUK MAHASISWA ======================
-        // ============================================================
-
-        public void LihatNilaiMahasiswa(string nim)
-        {
-            var nilai = daftarNilai.Where(n => n.NIM == nim).ToList();
-
-            Console.WriteLine("\nKODEMK | NAMA MK        | NA  | HM");
-            Console.WriteLine("-------------------------------------");
-
-            foreach (var n in nilai)
-                Console.WriteLine($"{n.KodeMK,-6} | {n.NamaMK,-13} | {n.NilaiAkhir,4:F1} | {n.HurufMutu}");
-
-            Console.ReadLine();
-        }
-
-
-        // ============================================================
         // =============== FUNGSI BANTUAN =============================
         // ============================================================
 
@@ -217,6 +199,7 @@ namespace Project_PBO
             return kelasDosen[pilih - 1];
         }
 
+        //ubah input angka dengan validasi 0-100
         private double InputAngka(string label)
         {
             Console.Write(label);
@@ -226,6 +209,7 @@ namespace Project_PBO
             return val;
         }
 
+        //ubah input angka dengan validasi 0-100 dan bisa tekan enter untuk tidak diubah
         private double InputUbah(string nama, double lama)
         {
             Console.Write($"{nama} lama {lama}, baru (ENTER = tidak diubah): ");

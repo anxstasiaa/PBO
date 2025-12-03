@@ -71,83 +71,8 @@ namespace Project_PBO
 
         }
 
-        // Menu Filter untuk Daftar Mahasiswa
-        public void MenuDaftarMahasiswa()
-        {
-            int pilihan;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("===== Lihat Daftar Mahasiswa =====");
-                Console.WriteLine("[1] Semua Mahasiswa");
-                Console.WriteLine("[2] Filter berdasarkan Prodi");
-                Console.WriteLine("[3] Filter berdasarkan Angkatan");
-                Console.WriteLine("[4] Filter berdasarkan Prodi dan Angkatan");
-                Console.WriteLine("[5] Kembali");
-                Console.WriteLine("==================================");
-                Console.Write("Pilih menu: ");
 
-                if (!int.TryParse(Console.ReadLine(), out pilihan))
-                {
-                    Console.WriteLine("Input tidak valid!");
-                    continue;
-                }
-
-                switch (pilihan)
-                {
-                    case 1:
-                        DaftarMahasiswa();
-                        break;
-
-                    case 2:
-                        Console.Write("\nMasukkan Kode Prodi: ");
-                        string prodi = Console.ReadLine()?.Trim().ToUpper();
-                        DaftarMahasiswa(filterProdi: prodi);
-                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
-                        Console.ReadLine();
-                        break;
-
-                    case 3:
-                        Console.Write("\nMasukkan Angkatan (2018-2025): ");
-                        if (int.TryParse(Console.ReadLine(), out int angkatan))
-                        {
-                            DaftarMahasiswa(filterAngkatan: angkatan);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Angkatan tidak valid!");
-                        }
-                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
-                        Console.ReadLine();
-                        break;
-
-                    case 4:
-                        Console.Write("\nMasukkan Kode Prodi: ");
-                        string prodiFilter = Console.ReadLine()?.Trim().ToUpper();
-                        Console.Write("Masukkan Angkatan (2018-2025): ");
-                        if (int.TryParse(Console.ReadLine(), out int angkatanFilter))
-                        {
-                            DaftarMahasiswa(filterProdi: prodiFilter, filterAngkatan: angkatanFilter);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Angkatan tidak valid!");
-                        }
-                        Console.WriteLine("\nTekan Enter untuk melanjutkan...");
-                        Console.ReadLine();
-                        break;
-
-                    case 5:
-                        break;
-
-                    default:
-                        Console.WriteLine("Pilihan tidak valid!");
-                        Console.WriteLine("Tekan Enter untuk melanjutkan...");
-                        Console.ReadLine();
-                        break;
-                }
-            } while (pilihan != 5);
-        }
+        
 
         // CREATE: Tambah Mahasiswa Baru
         public void TambahMahasiswa()
@@ -419,7 +344,7 @@ namespace Project_PBO
             }
         }
 
-        // Helper functions
+        // Helper 
         static bool IsAllDigits(string s)
         {
             if (string.IsNullOrEmpty(s)) return false;
