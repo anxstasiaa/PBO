@@ -64,6 +64,7 @@
     <Compile Include="Entitas\Semester.cs" />
     <Compile Include="Entitas\Tagihan.cs" />
     <Compile Include="Entitas\User.cs" />
+    <Compile Include="Model\SemesterModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

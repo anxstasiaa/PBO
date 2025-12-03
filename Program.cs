@@ -908,6 +908,7 @@ namespace Project_PBO
 
         public void KelolaSemester(Semester semester, string IDProdi)
         {
+
             bool selesai = false;
 
             while (!selesai)
@@ -936,7 +937,7 @@ namespace Project_PBO
                         SemCtrl.LihatSemuaSemester(IDProdi);
                         break;
                     case "3":
-                        SemCtrl.CariSemesterByKode(IDProdi);
+                        SemCtrl.CariSemesterByID(IDProdi);
                         break;
                     case "4":
                         SemCtrl.UpdateSemester(IDProdi);

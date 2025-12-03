@@ -8,7 +8,14 @@ namespace Project_PBO
 {
     internal class SemesterController
     {
+        public SemesterModel SemModel;
         static List<Semester> daftarSemester = new List<Semester>();
+
+        public SemesterController(List<Semester> semester)
+        {
+            daftarSemester = semester;
+            SemModel = new SemesterModel(daftarSemester);
+        }
 
         // CREATE - Tambah Semester Baru
         private void TambahSemester()
